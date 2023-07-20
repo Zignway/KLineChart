@@ -30,6 +30,7 @@ limitations under the License.
     <div id="chart"></div>
     <script>
       window.onload = function () {
+        var fag = true
         var chart = klinecharts.init('chart')
         chart.createIndicator('VOL')
         chart.applyNewData(generated(), true)
@@ -37,11 +38,13 @@ limitations under the License.
           setTimeout(function() {
             const kLineDataList = chart.getDataList()
             const data = { ...kLineDataList[kLineDataList.length - 1] }
-            data.close = data.close + (Math.random() * 10 - 5)
-            data.high = Math.max(data.close, data.high)
+            data.close = data.close + (fag ? 250 : -250)
+            // data.high = Math.max(data.close, data.high)
+            data.high = data.close + 10
             data.low = Math.min(data.close, data.low)
             data.volume += Math.round(Math.random() * 20)
             chart.updateData(data)
+            fag = !fag
             update()
           }, 1000)
         }

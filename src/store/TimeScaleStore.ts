@@ -24,6 +24,7 @@ import { logWarn } from '../common/utils/logger'
 import { binarySearchNearest } from '../common/utils/number'
 
 import ChartStore from './ChartStore'
+import { PaneIdConstants } from '../pane/Pane'
 
 interface MinVisibleBarCount {
   left: number
@@ -115,6 +116,11 @@ export default class TimeScaleStore {
    */
   private _visibleRange: VisibleRange = getDefaultVisibleRange()
 
+  /**
+   * Fag on start for setAutoCalcTickFlag
+   */
+  private _fagAutoCalc = false
+
   constructor (chartStore: ChartStore) {
     this._chartStore = chartStore
     this._gapBarSpace = this._calcGapBarSpace()
@@ -145,6 +151,16 @@ export default class TimeScaleStore {
       this._offsetRightBarCount = minRightOffsetBarCount
     }
     let to = Math.round(this._offsetRightBarCount + dataCount + 0.5)
+
+    if (this._offsetRightBarCount < -1) {
+      this._fagAutoCalc = true
+      this._chartStore.getChart().getPaneById(PaneIdConstants.CANDLE)?.getAxisComponent().setAutoCalcTickFlag(true)
+    } else {
+      if (this._fagAutoCalc) {
+        this._chartStore.getChart().getPaneById(PaneIdConstants.CANDLE)?.getAxisComponent().setAutoCalcTickFlag(false)
+      }
+    }
+
     if (to > dataCount) {
       to = dataCount
     }
