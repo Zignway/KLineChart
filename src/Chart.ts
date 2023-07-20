@@ -115,6 +115,7 @@ export interface Chart {
   unsubscribeAction: (type: ActionType, callback?: ActionCallback) => void
   getConvertPictureUrl: (includeOverlay?: boolean, type?: string, backgroundColor?: string) => string
   resize: () => void
+  setAutoEnabled: (enabled: boolean) => void
 }
 
 export default class ChartImp implements Chart {
@@ -851,6 +852,10 @@ export default class ChartImp implements Chart {
 
   resize (): void {
     this.adjustPaneViewport(true, true, true, true, true)
+  }
+
+  setAutoEnabled (enabled: boolean): void {
+    this.getPaneById(PaneIdConstants.CANDLE)?.getAxisComponent().setAutoCalcTickFlag(enabled)
   }
 
   destroy (): void {
