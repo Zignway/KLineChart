@@ -154,7 +154,8 @@ export default class TimeScaleStore {
 
     if (this._offsetRightBarCount < -1) {
       this._fagAutoCalc = true
-      this._chartStore.getChart().getPaneById(PaneIdConstants.CANDLE)?.getAxisComponent().setAutoCalcTickFlag(true)
+      this._chartStore.getChart().getPaneById(PaneIdConstants.CANDLE)?.getAxisComponent().setAutoCalcTickFlag(false)
+      // this._chartStore.getChart().getPaneById(PaneIdConstants.CANDLE)?.getAxisComponent().setAutoCalcTickFlag(true)
     } else {
       if (this._fagAutoCalc) {
         this._chartStore.getChart().getPaneById(PaneIdConstants.CANDLE)?.getAxisComponent().setAutoCalcTickFlag(false)

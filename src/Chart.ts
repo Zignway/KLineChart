@@ -482,6 +482,7 @@ export default class ChartImp implements Chart {
 
   applyNewData (dataList: KLineData[], more?: boolean, callback?: () => void): void {
     this._chartStore.clearDataList()
+    this.getPaneById(PaneIdConstants.CANDLE)?.getAxisComponent().setAutoCalcTickFlag(true)
     if (dataList.length === 0) {
       this.adjustPaneViewport(false, true, true, true)
     } else {
