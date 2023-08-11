@@ -859,6 +859,10 @@ export default class ChartImp implements Chart {
     this.getPaneById(PaneIdConstants.CANDLE)?.getAxisComponent().setAutoCalcTickFlag(enabled)
   }
 
+  isAutoEnabled (): boolean {
+    return this.getPaneById(PaneIdConstants.CANDLE)?.getAxisComponent().getAutoCalcTickFlag() ?? true
+  }
+
   destroy (): void {
     this._chartEvent.destroy()
     this._panes.forEach(pane => {

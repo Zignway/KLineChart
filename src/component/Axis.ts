@@ -44,6 +44,7 @@ export default abstract class AxisImp {
   private _ticks: AxisTick[] = []
 
   private _autoCalcTickFlag = true
+  private _autoCalcTickFlagSetting = true
 
   constructor (parent: Pane<AxisImp>) {
     this._parent = parent
@@ -52,6 +53,9 @@ export default abstract class AxisImp {
   getParent (): Pane<AxisImp> { return this._parent }
 
   buildTicks (force: boolean): boolean {
+    if (this._ticks.length > 0 && this._autoCalcTickFlagSetting !== this._autoCalcTickFlag) {
+      this._autoCalcTickFlag = this._autoCalcTickFlagSetting
+    }
     if (this._autoCalcTickFlag) {
       this._extremum = this.calcExtremum()
     }
@@ -72,6 +76,7 @@ export default abstract class AxisImp {
   }
 
   setExtremum (extremum: AxisExtremum): void {
+    this._autoCalcTickFlagSetting = false
     this._autoCalcTickFlag = false
     this._extremum = extremum
   }
@@ -79,7 +84,10 @@ export default abstract class AxisImp {
   getExtremum (): AxisExtremum { return this._extremum }
 
   setAutoCalcTickFlag (flag: boolean): void {
-    this._autoCalcTickFlag = flag
+    this._autoCalcTickFlagSetting = flag
+    if (this._ticks.length > 0) {
+      this._autoCalcTickFlag = flag
+    }
   }
 
   getAutoCalcTickFlag (): boolean { return this._autoCalcTickFlag }
